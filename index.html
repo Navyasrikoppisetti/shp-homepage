@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Shop Homepage</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+  <style>
+    /* Custom styles */
+    .product-rating {
+      color: gold;
+      font-size: 1.2rem;
+    }
+    .disabled {
+      pointer-events: none;
+      opacity: 0.5;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Shop Homepage</h1>
+    <div class="row">
+      <div class="col-md-4">
+        <div class="card mb-4">
+          <img class="card-img-top" src="product1.jpg" alt="Product 1">
+          <div class="card-body">
+            <h5 class="card-title">Product 1</h5>
+            <p class="card-text">Lorem ipsum dolor sit amet.</p>
+            <p class="product-rating" id="product1-rating"></p>
+            <button class="btn btn-primary add-to-cart" data-product="product1">Add to Cart</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="cart">
+      <h2>Cart</h2>
+      <ul id="cart-items"></ul>
+    </div>
+  </div>
+
+  <script>
+    // JavaScript code
+    // Rating according to value given
+    const product1RatingElement = document.getElementById('product1-rating');
+    const product1RatingValue = 4.5; // Replace with your actual rating value
+    product1RatingElement.innerText = `Rating: ${product1RatingValue}`;
+
+    // Disable "Add to Cart" button when added to the cart
+    const addToCartButtons = document.querySelectorAll('.add-to-cart');
+    addToCartButtons.forEach(button => {
+      button.addEventListener('click', addToCart);
+    });
+
+    function addToCart(event) {
+      const product = event.target.getAttribute('data-product');
+      const cartItemsElement = document.getElementById('cart-items');
+      const listItem = document.createElement('li');
+      listItem.innerText = product;
+      cartItemsElement.appendChild(listItem);
+      event.target.disabled = true;
+      event.target.classList.add('disabled');
+    }
+
+    // Remove item from the cart and enable "Add to Cart" button
+    const cartItems = document.getElementById('cart-items');
+    cartItems.addEventListener('click', removeItem);
+
+    function removeItem(event) {
+      if (event.target.tagName === 'LI') {
+        const cartItem = event.target;
+        const productName = cartItem.innerText;
+        cartItem.remove();
+        const addToCartButton = document.querySelector(`[data-product="${productName}"]`);
+        addToCartButton.disabled = false;
+        addToCartButton.classList.remove('disabled');
+      }
+    }
+  </script>
+</body>
+</html>
